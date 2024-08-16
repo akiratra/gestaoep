@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de EPIs - Gestão de EPIs</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="index.html">Gestão de EPIs</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="dashboard.html">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="gerenciar-epis.html">Gerenciar EPIs</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="relatorios.html">Relatórios</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="h1">Relatório de EPIs</h1>
+        <p class="text-center">Resumo detalhado do inventário, validade e distribuição dos EPIs.</p>
+
+        <!-- Botão para gerar PDF -->
+        <button id="downloadPDF" class="btn btn-danger mb-3">Gerar PDF</button>
+
+        <table class="table table-striped mt-4" id="epiTable">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Tipo de EPI</th>
+                    <th scope="col">Quantidade em Estoque</th>
+                    <th scope="col">Validade</th>
+                    <th scope="col">Distribuídos</th>
+                    <th scope="col">Em Uso</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Capacetes</td>
+                    <td>50 unidades</td>
+                    <td>12/2025</td>
+                    <td>30 unidades</td>
+                    <td>25 unidades</td>
+                    <td><a href="#" class="btn btn-primary btn-sm">Ver Detalhes</a></td>
+                </tr>
+                <tr>
+                    <td>Luvas</td>
+                    <td>100 unidades</td>
+                    <td>10/2024</td>
+                    <td>70 unidades</td>
+                    <td>65 unidades</td>
+                    <td><a href="#" class="btn btn-primary btn-sm">Ver Detalhes</a></td>
+                </tr>
+                <tr>
+                    <td>Máscaras</td>
+                    <td>200 unidades</td>
+                    <td>05/2024</td>
+                    <td>150 unidades</td>
+                    <td>140 unidades</td>
+                    <td><a href="#" class="btn btn-primary btn-sm">Ver Detalhes</a></td>
+                </tr>
+                <tr>
+                    <td>Óculos de Proteção</td>
+                    <td>75 unidades</td>
+                    <td>08/2024</td>
+                    <td>40 unidades</td>
+                    <td>38 unidades</td>
+                    <td><a href="#" class="btn btn-primary btn-sm">Ver Detalhes</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer class="bg-primary text-white text-center py-4 mt-5">
+        <p>&copy; 2024 Gestão de EPIs. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+    <script>
+        document.getElementById('downloadPDF').addEventListener('click', function () {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.text("Relatório de EPIs", 14, 20);
+            doc.autoTable({
+                startY: 30,
+                html: '#epiTable',
+                styles: {
+                    fontSize: 10,
+                },
+                headStyles: {
+                    fillColor: [0, 32, 96],
+                }
+            });
+
+            doc.save('relatorio_de_epis.pdf');
+        });
+    </script>
+</body>
+</html>

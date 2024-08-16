@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Gestão de EPIs</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="index.html">Gestão de EPIs</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="dashboard.html">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="gerenciar-epis.html">Gerenciar EPIs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="turmas.html">Turmas e Cursos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="relatorios.html">Relatórios</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="h1">Dashboard de EPIs</h1>
+        <p class="text-center">Visualize as principais métricas relacionadas aos Equipamentos de Proteção Individual.</p>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="stockChart"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="distributionChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <canvas id="validityChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-primary text-white text-center py-4 mt-5">
+        <p>&copy; 2024 Gestão de EPIs. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Dados para os gráficos
+        const epiData = {
+            labels: ['Capacetes', 'Luvas', 'Máscaras', 'Óculos de Proteção'],
+            stock: [50, 100, 200, 75],
+            distributed: [30, 70, 150, 40],
+            inUse: [25, 65, 140, 38],
+            validity: ['12/2025', '10/2024', '05/2024', '08/2024']
+        };
+
+        // Gráfico de Estoque
+        const stockCtx = document.getElementById('stockChart').getContext('2d');
+        new Chart(stockCtx, {
+            type: 'bar',
+            data: {
+                labels: epiData.labels,
+                datasets: [{
+                    label: 'Quantidade em Estoque',
+                    data: epiData.stock,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Gráfico de Distribuição
+        const distributionCtx = document.getElementById('distributionChart').getContext('2d');
+        new Chart(distributionCtx, {
+            type: 'pie',
+            data: {
+                labels: epiData.labels,
+                datasets: [{
+                    label: 'Distribuídos',
+                    data: epiData.distributed,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+        // Gráfico de Validade
+        const validityCtx = document.getElementById('validityChart').getContext('2d');
+        new Chart(validityCtx, {
+            type: 'line',
+            data: {
+                labels: epiData.labels,
+                datasets: [{
+                    label: 'Validade (Ano/Mês)',
+                    data: [202512, 202410, 202405, 202408], // Converting dates to numbers for the chart
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toString().slice(0, 4) + '/' + value.toString().slice(4, 6);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
